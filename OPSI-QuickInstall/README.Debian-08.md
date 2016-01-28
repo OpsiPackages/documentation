@@ -92,12 +92,12 @@ running.
 
 5. On Samba4 and above you have to set below option globally (edit ``/etc/samba/smb.conf`` for this):
 
-```
-# Always allow execution of files, if no x-bit is set for them
-   acl allow execute always = yes
-   ; required for executing files without setting the files' x--bits on the underlying
-   ; file systems!!!!
-```
+  ```
+  # Always allow execution of files, if no x-bit is set for them
+     acl allow execute always = yes
+     ; required for executing files without setting the files' x--bits on the underlying
+     ; file systems!!!!
+  ```
 
 6. Create or choose an already existing admin user account. You can use the initial user you created during
 installation of the Debian system (here: adminuser, already existing)
