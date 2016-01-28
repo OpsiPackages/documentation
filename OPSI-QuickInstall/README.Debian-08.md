@@ -105,7 +105,7 @@ installation of the Debian system (here: adminuser, already existing)
 7. Add that user to the opsiadmin POSIX group
 
   ```
-  # adduser lavd opsiadmin
+  # adduser adminuser opsiadmin
   ```
 
 9. The OPSI Getting Started manual suggests making this user a Samba user. This is not required.
