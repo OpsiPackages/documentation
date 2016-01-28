@@ -129,6 +129,13 @@ required.
    # opsi-product-updater -i -vv
   ```
 
+## Accessing OPSI's config editor TTW
+
+Visit ``https://opsi.<domain>.<tld>:4447/`` from any machine on the same
+subnet. The client machine requires Java7 (or higher to be installed).
+For authentication don't use the OPSI server's root account, but the admin user
+(here: ``adminuser``) created during installation of the Debian system.
+
 
 ## On the first MS Windows Client
 
