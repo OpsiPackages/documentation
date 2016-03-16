@@ -81,8 +81,8 @@ To add a download, you must make the following additions to the HEADER section:
     DOWNLOAD_URLS        = http://contoso.com/foobar-installer-x86.exe \
                            http://contoso.com/foobar-installer-x64.exe # put multiple URLs on separate lines, end every line except for the last with "\"
     
-    DOWNLOAD_FILES       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
-    DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(DOWNLOAD_FILES))
+    FILE_LIST       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
+    DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(FILE_LIST))
     #### END optional HEADER segment for downloads ####
     
     TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
@@ -106,7 +106,7 @@ Also, you need to make the following two additions to the ACTION section:
     	-i $(BUILD_DIR)/OPSI/control
 
     ### BEGIN optional ACTION segment #2 for downloads ###
-    $(BUILD_DIR)/$(DOWNLOAD_FILES): download
+    $(BUILD_DIR)/$(FILE_LIST): download
     	mkdir -p $(BUILD_DIR)/CLIENT_DATA/files/
     	cp -alf $(FILES_DIR)/$(subst $(dir $@),,$@) $(BUILD_DIR)/CLIENT_DATA/files/
     #### END optional ACTION segment #2 for downloads ####
@@ -119,6 +119,6 @@ Then, change the line
 
 to:
 
-    $(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(DOWNLOAD_FILES) # this will trigger the download process
+    $(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(FILE_LIST) # this will trigger the download process
 
 A Makefile that looks just like that, but without the verbose comments, is stored in the same directory as the file you are reading right now, named Makefile-002-download.

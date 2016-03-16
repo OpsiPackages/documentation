@@ -15,8 +15,8 @@ OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP 
 DOWNLOAD_URLS        = http://contoso.com/foobar-installer-x86.exe \
 		       http://contoso.com/foobar-installer-x64.exe
 			   
-DOWNLOAD_FILES       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
-DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(DOWNLOAD_FILES))
+FILE_LIST       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
+DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(FILE_LIST))
 
 TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
 
@@ -47,11 +47,11 @@ $(BUILD_DIR)/$(TARGET): ./CLIENT_DATA ./OPSI/control
             -e "s/TIMESTAMP/$(TIMESTAMP)/g" \
             -i $(BUILD_DIR)/OPSI/control  
 
-$(BUILD_DIR)/$(DOWNLOAD_FILES): download
+$(BUILD_DIR)/$(FILE_LIST): download
 	mkdir -p $(BUILD_DIR)/CLIENT_DATA/files/
 	cp -alf $(FILES_DIR)/$(subst $(dir $@),,$@) $(BUILD_DIR)/CLIENT_DATA/files/
 
-$(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(DOWNLOAD_FILES)
+$(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(FILE_LIST)
 	opsi-makeproductfile $(BUILD_DIR)
 
 build: $(TARGET)
