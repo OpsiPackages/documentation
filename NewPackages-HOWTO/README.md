@@ -35,10 +35,10 @@ The folders "files" and "unpacked" and the file "md5sums.txt" are optional.
 The final *.opsi package ended up in the root of the package subdirectory, i.e. where the files "Makefile" and, if present, "md5sums.txt" reside.
 
 The downside of this approach is that for every update, you need to make changes in several files:
-Makefile - new version number, possibly new download URL/file name
-CLIENT_DATA/setup*.ins - possibly new setup file name
-CLIENT_DATA/delsub.ins - possibly new uninstaller file name or UUID
-OPSI/control - new version number, changelog
+* Makefile - new version number, possibly new download URL/file name
+* CLIENT_DATA/setup*.ins - possibly new setup file name
+* CLIENT_DATA/delsub.ins - possibly new uninstaller file name or UUID
+* OPSI/control - new version number, changelog
 
 Our idea, thus, is to simplify and centralize this, by adding a new folder "build", like it is common in the Unix world when building software using "make".
 
