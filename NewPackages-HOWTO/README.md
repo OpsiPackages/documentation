@@ -10,25 +10,25 @@ Of those offering build recipes, most looked like this:
 
 (view of the package subdirectory)
 
-+-Makefile
-|
-+-md5sums.txt
-|
-+-(CLIENT_DATA)
-| |
-| +-delsub*.ins
-| |
-| +-setup*.ins
-| |
-| +-unins*.ins
-| |
-| +-(files)
-|   |
-|   +-(unpacked)
-|
-+-(OPSI)
-  |
-  +-control
+    +-Makefile
+    |
+    +-md5sums.txt
+    |
+    +-(CLIENT_DATA)
+    | |
+    | +-delsub*.ins
+    | |
+    | +-setup*.ins
+    | |
+    | +-unins*.ins
+    | |
+    | +-(files)
+    |   |
+    |   +-(unpacked)
+    |
+    +-(OPSI)
+      |
+      +-control
 
 Everything in (brackets) is a folder name, names without brackets are files.
 The folders "files" and "unpacked" and the file "md5sums.txt" are optional.
@@ -50,66 +50,66 @@ Our proposed package subdirectory structure looks like this:
 
 Before running "make all":
 
-+-Makefile
-|
-+-md5sums.txt
-|
-+-(CLIENT_DATA)
-| |
-| +-delsub*.ins
-| |
-| +-setup*.ins
-| |
-| +-unins*.ins
-| |
-| +-(files)
-|
-+-(OPSI)
-| |
-| +-control
-|
-+-(files)
-|
-+-(build)
+    +-Makefile
+    |
+    +-md5sums.txt
+    |
+    +-(CLIENT_DATA)
+    | |
+    | +-delsub*.ins
+    | |
+    | +-setup*.ins
+    | |
+    | +-unins*.ins
+    | |
+    | +-(files)
+    |
+    +-(OPSI)
+    | |
+    | +-control
+    |
+    +-(files)
+    |
+    +-(build)
 
 Note that there is no longer a directory "unpacked". See below for why.
 
 
 After running "make all":
 
-+-Makefile
-|
-+-md5sums.txt
-|
-+-(CLIENT_DATA)
-| |
-| +-delsub*.ins
-| |
-| +-setup*.ins
-| |
-| +-unins*.ins
-| |
-| +-(files)
-|
-+-(OPSI)
-| |
-| +-control
-|
-+-(files)
-|
-+-(build)
-  |
-  +-(CLIENT_DATA)
-  | |
-  | +-(files) # See Note
-  | |
-  | +-delsub*.ins
-  | |
-  | +-setup*.ins
-  | |
-  | +-unins*.ins
-  |
-  +-newpackage.opsi
+    +-Makefile
+    |
+    +-md5sums.txt
+    |
+    +-(CLIENT_DATA)
+    | |
+    | +-delsub*.ins
+    | |
+    | +-setup*.ins
+    | |
+    | +-unins*.ins
+    | |
+    | +-(files)
+    |
+    +-(OPSI)
+    | |
+    | +-control
+    |
+    +-(files)
+    |
+    +-(build)
+      |
+      +-(CLIENT_DATA)
+      | |
+      | +-(files) # See Note
+      | |
+      | +-delsub*.ins
+      | |
+      | +-setup*.ins
+      | |
+      | +-unins*.ins
+      |
+      +-newpackage.opsi
 
 Note: 
 * This directory will now be used as a target for unpacking, if required. No more files/unpacked.
