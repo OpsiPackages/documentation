@@ -40,7 +40,7 @@ The downside of this approach is that for every update, you need to make changes
 * CLIENT_DATA/delsub.ins - possibly new uninstaller file name or UUID
 * OPSI/control - new version number, changelog
 
-Our idea, thus, is to simplify and centralize this, by adding a new folder "build", like it is common in the Unix world when building software using "make".
+Our idea, thus, is to simplify and centralize this, by adding a new folder "build", like it is common in the Unix world when building software using "make". That way, changes to those files can be made by scripts/commands within the Makefile itself.
 
 The catch:
 * The regular approach of simply writing the results to the ./build directory was never designed for large binary blobs. Blindly copying everything over means tripling (source, destination, inside package) the required space instead of doubling (source, inside package) it.
