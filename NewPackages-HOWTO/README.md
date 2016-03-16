@@ -22,9 +22,9 @@ Of those offering build recipes, most looked like this:
     | |
     | +-unins*.ins
     | |
-    | +-(files)
+    | +-(files) # optional
     |   |
-    |   +-(unpacked)
+    |   +-(unpacked) # optional
     |
     +-(OPSI)
       |
@@ -61,16 +61,14 @@ Before running "make all":
     | +-setup*.ins
     | |
     | +-unins*.ins
-    | |
-    | +-(files)
     |
     +-(OPSI)
     | |
     | +-control
     |
-    +-(files)
+    +-(files) # optional
     |
-    +-(build)
+    +-(build) # will be created by first call of "build", and wiped by "clean" or "distclean"
 
 Note that there is no longer a directory "unpacked". See below for why.
 
@@ -88,32 +86,30 @@ After running "make all":
     | +-setup*.ins
     | |
     | +-unins*.ins
-    | |
-    | +-(files)
     |
     +-(OPSI)
     | |
     | +-control
     |
-    +-(files)
+    +-(files) # optional
     |
     +-(build)
-      |
-      +-(CLIENT_DATA)
-      | |
-      | +-(files) # See Note
-      | |
-      | +-delsub*.ins
-      | |
-      | +-setup*.ins
-      | |
-      | +-unins*.ins
-      |
-      +-(OPSI)
-      | |
-      | +-control
-      |
-      +-newpackage.opsi
+    | |
+    | +-(CLIENT_DATA)
+    | | |
+    | | +-(files) # See Note
+    | | |
+    | | +-delsub*.ins
+    | | |
+    | | +-setup*.ins
+    | | |
+    | | +-unins*.ins
+    | |
+    | +-(OPSI)
+    |   |
+    |   +-control
+    |
+    +-newpackage.opsi
 
 Note: 
 * This directory will now be used as a target for unpacking, if required. No more files/unpacked.
