@@ -1,0 +1,52 @@
+# Makefile-001-minimum
+
+# HEADER
+OPSI_PACKAGE_NAME    = foobar.op
+OPSI_PACKAGE_VERSION = 1
+SOFTWARE_NAME        = FooBar
+SOFTWARE_VERSION     = 1.0
+TIMESTAMP            = $(shell date -R)
+MAINTAINER_NAME      = John Doe
+MAINTAINER_EMAIL     = maintainer@example.com
+OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP by $(MAINTAINER_NAME) on $(TIMESTAMP). It does nothing.
+
+BUILD_DIR            = ./build
+TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
+
+# ACTION
+.PHONY: clean distclean
+
+all: clean build
+
+deploy: all clean install
+
+$(BUILD_DIR)/$(TARGET): ./CLIENT_DATA ./OPSI/control
+	mkdir -p $(BUILD_DIR)
+	cp -alf ./CLIENT_DATA $(BUILD_DIR)
+	cp -af ./OPSI $(BUILD_DIR)
+	sed -e "s/OPSI_PACKAGE_NAME/$(OPSI_PACKAGE_NAME)/g" \
+            -e "s/OPSI_PACKAGE_VERSION/$(OPSI_PACKAGE_VERSION)/g" \
+            -e "s/OPSI_PACKAGE_DESC/$(OPSI_PACKAGE_DESC)/g" \
+            -e "s/SOFTWARE_NAME/$(SOFTWARE_NAME)/g" \
+            -e "s/SOFTWARE_VERSION/$(SOFTWARE_VERSION)/g" \
+            -e "s/MAINTAINER_NAME/$(MAINTAINER_NAME)/g" \
+            -e "s/MAINTAINER_EMAIL/$(MAINTAINER_EMAIL)/g" \
+            -e "s/TIMESTAMP/$(TIMESTAMP)/g" \
+            -i $(BUILD_DIR)/OPSI/control  
+
+$(TARGET): $(BUILD_DIR)/$(TARGET)
+	opsi-makeproductfile $(BUILD_DIR)
+
+build: $(TARGET)
+
+$(TARGET).uploaded:
+	opsi-package-manager -i $(TARGET)
+	touch $(TARGET).uploaded
+
+install: $(TARGET).uploaded
+
+clean:
+	rm -rf $(BUILD_DIR)
+
+distclean: clean
+	rm -f $(TARGET) $(TARGET).uploaded

@@ -1,0 +1,29 @@
+[Package]
+version: OPSI_PACKAGE_VERSION
+depends: 
+incremental: False
+
+[Product]
+type: localboot
+id: OPSI_PACKAGE_NAME
+name: SOFTWARE_NAME
+description: OPSI_PACKAGE_DESC
+advice: 
+version: SOFTWARE_VERSION
+priority: 0
+licenseRequired: False
+productClasses: 
+setupScript: 
+uninstallScript: 
+updateScript: 
+alwaysScript: 
+onceScript: 
+customScript: 
+userLoginScript: 
+
+[Changelog]
+OPSI_PACKAGE_NAME (SOFTWARE_VERSION-OPSI_PACKAGE_VERSION) testing; urgency=low
+
+* See file "OPSI/changelog" for actual changelog
+
+-- MAINTAINER_NAME <MAINTAINER_EMAIL>  TIMESTAMP
