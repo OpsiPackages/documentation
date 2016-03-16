@@ -15,7 +15,7 @@ OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP 
 DOWNLOAD_URLS        = http://contoso.com/foobar-installer-x86.exe \
 		       http://contoso.com/foobar-installer-x64.exe
 			   
-FILE_LIST       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
+FILE_LIST            = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
 DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(FILE_LIST))
 
 TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi

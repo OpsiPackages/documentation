@@ -81,7 +81,7 @@ To add a download, you must make the following additions to the HEADER section:
     DOWNLOAD_URLS        = http://contoso.com/foobar-installer-x86.exe \
                            http://contoso.com/foobar-installer-x64.exe # put multiple URLs on separate lines, end every line except for the last with "\"
     
-    FILE_LIST       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
+    FILE_LIST            = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
     DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(FILE_LIST))
     #### END optional HEADER segment for downloads ####
     
