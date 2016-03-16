@@ -145,7 +145,7 @@ For authentication don't use the OPSI server's root account, but the admin user
 * Execute ``service_setup.cmd``
 * Wait for MS Visual C++ redist getting installed
 * Wait for OPSI client agent to get installed
-* When asked for username and password for the OPSI server, use account ``pcpatch`` and the earlier noted password for that user.
+* When asked for username and password for the OPSI server, you can use ``pcpatch``, ``adminuser``, or an account with the same rights as ``adminuser`` - the latter two are the preferred options.
 
 ## Notes on OPSI products
 
