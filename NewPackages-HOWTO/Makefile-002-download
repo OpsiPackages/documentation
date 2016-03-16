@@ -1,0 +1,70 @@
+# Makefile-001-minimum
+
+# HEADER
+FILES_DIR            = ./files
+BUILD_DIR            = ./build
+OPSI_PACKAGE_NAME    = foobar.op
+OPSI_PACKAGE_VERSION = 1
+SOFTWARE_NAME        = FooBar
+SOFTWARE_VERSION     = 1.0
+TIMESTAMP            = $(shell date -R)
+MAINTAINER_NAME      = John Doe
+MAINTAINER_EMAIL     = maintainer@example.com
+OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP by $(MAINTAINER_NAME) on $(TIMESTAMP). It does nothing.
+
+DOWNLOAD_URLS        = http://contoso.com/foobar-installer-x86.exe \
+		       http://contoso.com/foobar-installer-x64.exe
+			   
+DOWNLOAD_FILES       = $(foreach url,$(DOWNLOAD_URLS),$(subst $(dir $(url)),,$(url)))
+DOWNLOAD_TARGETS     = $(addprefix $(FILES_DIR)/,$(DOWNLOAD_FILES))
+
+TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
+
+# ACTION
+.PHONY: clean distclean
+
+all: clean build
+
+deploy: all clean install
+
+$(DOWNLOAD_TARGETS):
+	mkdir -p $(FILES_DIR)
+	wget $(WGET_COMMON_OPTIONS) -P $(FILES_DIR) $(DOWNLOAD_URLS) 
+
+download: $(DOWNLOAD_TARGETS)
+
+$(BUILD_DIR)/$(TARGET): ./CLIENT_DATA ./OPSI/control
+	mkdir -p $(BUILD_DIR)
+	cp -alf ./CLIENT_DATA $(BUILD_DIR)
+	cp -af ./OPSI $(BUILD_DIR)
+	sed -e "s/OPSI_PACKAGE_NAME/$(OPSI_PACKAGE_NAME)/g" \
+            -e "s/OPSI_PACKAGE_VERSION/$(OPSI_PACKAGE_VERSION)/g" \
+            -e "s/OPSI_PACKAGE_DESC/$(OPSI_PACKAGE_DESC)/g" \
+            -e "s/SOFTWARE_NAME/$(SOFTWARE_NAME)/g" \
+            -e "s/SOFTWARE_VERSION/$(SOFTWARE_VERSION)/g" \
+            -e "s/MAINTAINER_NAME/$(MAINTAINER_NAME)/g" \
+            -e "s/MAINTAINER_EMAIL/$(MAINTAINER_EMAIL)/g" \
+            -e "s/TIMESTAMP/$(TIMESTAMP)/g" \
+            -i $(BUILD_DIR)/OPSI/control  
+
+$(BUILD_DIR)/$(DOWNLOAD_FILES): download
+	mkdir -p $(BUILD_DIR)/CLIENT_DATA/files/
+	cp -alf $(FILES_DIR)/$(subst $(dir $@),,$@) $(BUILD_DIR)/CLIENT_DATA/files/
+
+$(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(DOWNLOAD_FILES)
+	opsi-makeproductfile $(BUILD_DIR)
+
+build: $(TARGET)
+
+$(TARGET).uploaded:
+	opsi-package-manager -i $(TARGET)
+	touch $(TARGET).uploaded
+
+install: $(TARGET).uploaded
+
+clean:
+	rm -rf $(BUILD_DIR)
+
+distclean: clean
+	rm -rf $(FILES_DIR)
+	rm -f  $(TARGET) $(TARGET).uploaded
