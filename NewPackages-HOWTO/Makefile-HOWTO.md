@@ -122,3 +122,57 @@ to:
     $(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(FILE_LIST) # this will trigger the download process
 
 A Makefile that looks just like that, but without the verbose comments, is stored in the same directory as the file you are reading right now, named Makefile-002-download.
+
+To add files already present, you must make the following additions to the HEADER section:
+
+    OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP by $(MAINTAINER_NAME) on $(TIMESTAMP). It does nothing.
+    
+    ### BEGIN optional HEADER segment for already-present files ###
+    # use md5deep -r -l $(FILES_DIR) to generate this list
+    MD5_FILE             = ./md5sums.txt
+    MD5_PARAMS           = -r -n -l -X
+    FILE_LIST            = $(shell awk '{print $$2}' $(MD5_FILE) )
+    #### END optional HEADER segment for already-present files ####
+    
+    TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
+
+Also, you need to make the following two additions to the ACTION section:
+
+    deploy: all clean install
+    
+    ### BEGIN optional ACTION segment #1 for already-present files ###
+    checkpresence: $(MD5_FILE) $(FILES_DIR)
+    	md5deep $(MD5_PARAMS) $(MD5_FILE) $(FILES_DIR)/*
+    #### END optional ACTION segment #1 for already-present files ####
+     
+    $(BUILD_DIR)/$(TARGET): ./CLIENT_DATA ./OPSI/control
+    
+    ...
+    
+    	-i $(BUILD_DIR)/OPSI/control
+
+    ### BEGIN optional ACTION segment #2 for already-present files ###
+    $(BUILD_DIR)/$(FILE_LIST): checkpresence
+    	mkdir -p $(BUILD_DIR)/CLIENT_DATA/files/
+    	cp -alf $(FILES_DIR)/$(subst $(dir $@),,$@) $(BUILD_DIR)/CLIENT_DATA/files/
+    #### END optional ACTION segment #2 for already-present files ####
+    
+    $(TARGET): $(BUILD_DIR)/$(TARGET)
+
+Then, change the line
+
+    $(TARGET): $(BUILD_DIR)/$(TARGET)
+
+to:
+
+    $(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(FILE_LIST) # this will trigger the checksumming process
+
+Also, you might want to change the line
+
+    	rm -rf $(FILES_DIR) # block
+
+to
+
+    	# rm -rf $(FILES_DIR) # blocked to avoid deleting original files
+
+A Makefile that looks just like that, but without the verbose comments, is stored in the same directory as the file you are reading right now, named Makefile-003-present-files
