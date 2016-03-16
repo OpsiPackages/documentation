@@ -109,6 +109,10 @@ After running "make all":
       | |
       | +-unins*.ins
       |
+      +-(OPSI)
+      | |
+      | +-control
+      |
       +-newpackage.opsi
 
 Note: 
