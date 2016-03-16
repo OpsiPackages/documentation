@@ -2,7 +2,7 @@
 
 This document will be used to explain what the various sections of a Makefile will have to look like, depending on the OPSI-package type.
 
-This is the absolute minimum required in the header section:
+The following is the absolute minimum required in the header section:
 
     # HEADER
     OPSI_PACKAGE_NAME    = foobar.op
@@ -18,9 +18,7 @@ This is the absolute minimum required in the header section:
     TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
 
 
-This is the absolute minimum required in the action section:
-Note: All indents in the *ACTION* section must be *TAB* characters, not four spaces, not eight spaces, TABs. This is essential. The make command *will* fail if you do not use TABs.
-
+The following is the absolute minimum required in the action section:
 
     # ACTION
     .PHONY: clean distclean
@@ -66,5 +64,7 @@ Note: All indents in the *ACTION* section must be *TAB* characters, not four spa
 
     distclean: clean
     	rm -f $(TARGET) $(TARGET).uploaded
+
+Note: All indents in the *ACTION* section must be *TAB* characters, not four spaces, not eight spaces, TABs. This is essential. The make command *will* fail if you do not use TABs.
 
 A Makefile that looks just like that, but without the verbose comments, is stored in the same directory as the file you are reading right now, named Makefile-001-minimum.
