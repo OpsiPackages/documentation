@@ -114,8 +114,11 @@ Also, you need to make the following two additions to the ACTION section:
     $(TARGET): $(BUILD_DIR)/$(TARGET)
 
 Then, change the line
+
     $(TARGET): $(BUILD_DIR)/$(TARGET)
+
 to:
+
     $(TARGET): $(BUILD_DIR)/$(TARGET) $(BUILD_DIR)/$(DOWNLOAD_FILES) # this will trigger the download process
 
 A Makefile that looks just like that, but without the verbose comments, is stored in the same directory as the file you are reading right now, named Makefile-002-download.
