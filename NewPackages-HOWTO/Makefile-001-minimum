@@ -1,6 +1,8 @@
 # Makefile-001-minimum
 
 # HEADER
+FILES_DIR            = ./files
+BUILD_DIR            = ./build
 OPSI_PACKAGE_NAME    = foobar.op
 OPSI_PACKAGE_VERSION = 1
 SOFTWARE_NAME        = FooBar
@@ -10,7 +12,6 @@ MAINTAINER_NAME      = John Doe
 MAINTAINER_EMAIL     = maintainer@example.com
 OPSI_PACKAGE_DESC    = This is the $(SOFTWARE_NAME) package, packaged for DotOP by $(MAINTAINER_NAME) on $(TIMESTAMP). It does nothing.
 
-BUILD_DIR            = ./build
 TARGET               = $(OPSI_PACKAGE_NAME)_$(SOFTWARE_VERSION)-$(OPSI_PACKAGE_VERSION).opsi
 
 # ACTION
@@ -49,4 +50,5 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 distclean: clean
-	rm -f $(TARGET) $(TARGET).uploaded
+	rm -rf $(FILES_DIR)
+	rm -f  $(TARGET) $(TARGET).uploaded
